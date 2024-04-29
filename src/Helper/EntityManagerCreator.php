@@ -9,7 +9,7 @@ use Doctrine\ORM\ORMSetup;
 //require_once "vendor/autoload.php";
 class EntityManagerCreator
 {
-public static function createEntityManager(){
+public static function createEntityManager(): EntityManager{
 
 
 $config = ORMSetup::createAttributeMetadataConfiguration(
@@ -18,10 +18,12 @@ true,
 );
 
 // configuring the database connection
-$connection = DriverManager::getConnection(['driver' => 'pdo_sqlite',
-'path' => __DIR__ . '/../../db.sqlite',], $config);
+    $conn = [
+        'driver' => 'pdo_sqlite',
+        'path' => __DIR__ . '/../../db.sqlite',
+    ];
 
 // obtaining the entity manager
-$entityManager = new EntityManager($connection, $config);
+    return EntityManager::create($conn, $config);
 }
 }

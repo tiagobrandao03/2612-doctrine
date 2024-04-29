@@ -2,6 +2,7 @@
 
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+//use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
 // replace with path to your own project bootstrap file
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -12,4 +13,5 @@ $entityManager = \Alura\Doctrine\Helper\EntityManagerCreator::createEntityManage
 
 ConsoleRunner::run(
     new SingleManagerProvider($entityManager)
+    //new SingleManagerProvider($entityManager)
 );
