@@ -11,7 +11,6 @@ class EntityManagerCreator
 {
 public static function createEntityManager(): EntityManager{
 
-
 $config = ORMSetup::createAttributeMetadataConfiguration(
 [__DIR__ . "/.."],
 true,

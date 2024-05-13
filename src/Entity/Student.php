@@ -4,6 +4,8 @@ namespace Alura\Doctrine\Entity;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 
 #[Entity]
 class Student
@@ -12,8 +14,12 @@ class Student
     #[GeneratedValue]
     #[Column]
     public readonly int $id;
+
+    public $name;
+
     public function __construct(
-        public readonly string $name
+        //#[Column]
+        //public readonly string $name
     ){
     //public readonly $id, #[Column(type: "string")] public readonly $nome
 
