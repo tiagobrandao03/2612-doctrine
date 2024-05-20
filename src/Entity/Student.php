@@ -15,13 +15,9 @@ class Student
     #[Column]
     public readonly int $id;
 
-    public $name;
-
     public function __construct(
-        //#[Column]
-        //public readonly string $name
-    ){
-    //public readonly $id, #[Column(type: "string")] public readonly $nome
-
+        #[Column]
+        public readonly string $name
+    ) {
     }
 }
