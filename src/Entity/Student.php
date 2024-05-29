@@ -30,7 +30,9 @@ class Student
     {
         $this->phones->add($phone);
     }
-    /** @return iterable<Phone> */
+    /**
+     * @return iterable<Phone>
+     * */
     public function phones(): iterable
     {
         return $this->phones;
