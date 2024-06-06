@@ -16,9 +16,9 @@ foreach ($studentList as $student){
     echo "Telefones:\n";
 
 
-    foreach ($student->phones() as $phone){
-        echo $phone->number.PHP_EOL;
-    }
+    echo implode(',', $student->phones()
+    ->map(fn (Phone $phone) =>$phone->number)
+    ->toArray());
 
     echo PHP_EOL;
 }
