@@ -1,0 +1,216 @@
+#[Entity]
+class Course
+{
+    #[Id, GeneratedValue, Column]
+    public int $id;
+
+    /** @Column(type="string") */
+    private $name;
+    #[ManyToMany(
+        Student::class,
+        mappedBy: "student")]
+    private Collection $student;
+
+    public function __construct(
+
+        //public readonly string $nome
+        ){
+        $this->students =new ArrayCollection();
+
+
+    }
+
+
+/**
+ * @Entity
+ * @Table(name="students")
+ */
+class Student
+{
+    /** @Id @Column(type="integer") @GeneratedValue */
+    private $id;
+
+    /** @Column(type="string") */
+    private $name;
+
+    /** @OneToMany(targetEntity="Phone", mappedBy="student") */
+    private $phones;
+
+    public function __construct()
+    {
+        $this->phones = new ArrayCollection();
+    }
+
+    public function addPhone(Phone $phone)
+    {
+        $this->phones->add($phone);
+        $phone->setStudent($this); // Se necessário, dependendo do mapeamento
+    }
+
+    #[Id, GeneratedValue, Column]
+        public int $id;
+
+        /**
+         * @Column(type="string")
+         * */
+        private $name;
+        #[OneToMany(
+            mappedBy: "student",
+            targetEntity: Phone::class,
+            cascade: ["persist","remove"])]
+        private Collection $phones;
+
+
+
+    public function __construct(
+    // #[Column]
+        //        public readonly string $name
+    ) {
+        $this->phones = new ArrayCollection();
+    }
+
+    public function addPhones(Phone $phone)
+    {
+        $this->phones->add($phone);
+        $phone->setStudent($this);
+    }
+
+    class Student
+    {
+        #[Id, GeneratedValue, Column]
+        public int $id;
+
+        /**
+         * @Column(type="string")
+         * */
+        private $name;
+        #[OneToMany(
+            mappedBy: "student",
+            targetEntity: Phone::class,
+            cascade: ["persist","remove"])]
+        private Collection $phones;
+
+        #[ManyToMany(targetEntity: Course::class, inversedBy: "students")]
+        private Collection $courses;
+
+
+        public function __construct(
+        // #[Column]
+            //        public readonly string $name
+        ) {
+            $this->phones = new ArrayCollection();
+        }
+
+        public function addPhones(Phone $phone)
+        {
+            $this->phones->add($phone);
+            $phone->setStudent($this);
+        }
+
+
+
+
+
+        //
+
+
+#[Entity]
+class Course
+{
+    #[Id, GeneratedValue, Column]
+    public int $id;
+
+    /** @Column(type="string") */
+    private $name;
+    #[ManyToMany(
+        Student::class,
+        mappedBy: "student")]
+    private Collection $student;
+
+    public function __construct(
+
+        //public readonly string $nome
+        ){
+        $this->students =new ArrayCollection();
+
+
+    }
+
+    public function students():Collection
+    {
+        return $this->students;
+    }
+
+    public function addstudents(student $student):void
+    {
+        if($this->students->contains($student)){
+            return;
+        }
+        $this->students->add($student);
+        $student->enrollInCourse($this);
+    }
+
+}
+
+//
+
+
+
+
+/**
+ * @[Entity]
+ * @Table(name="students")
+ * */
+class Student
+{
+    #[Id, GeneratedValue, Column]
+    public int $id;
+
+    /**
+     * @Column(type="string")
+     * */
+    private $name;
+    #[OneToMany(
+        mappedBy: "student",
+        targetEntity: Phone::class,
+        cascade: ["persist","remove"])]
+    private Collection $phones;
+
+    #[ManyToMany(targetEntity: Course::class, inversedBy: "students")]
+    private Collection $courses;
+
+
+    public function __construct(
+    // #[Column]
+        //        public readonly string $name
+    ) {
+        $this->phones = new ArrayCollection();
+    }
+
+    public function addPhones(Phone $phone)
+    {
+        $this->phones->add($phone);
+        $phone->setStudent($this);
+    }
+    /**
+     * @return Collection<Phone>
+     * */
+    public function phones(): iterable
+    {
+        return $this->phones;
+    }
+
+    public function courses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function enrollInCourse(Course $course):void
+    {
+        if($this->courses->contains($course)){
+            return;
+        }
+        $this->courses->add($course);
+        $course->addStudent($this);
+    }
+}

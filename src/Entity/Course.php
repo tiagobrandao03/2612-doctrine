@@ -9,56 +9,44 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Phones;
-use Doctrine\ORM\Mapping\Student;
-use Doctrine\ORM\Mapping\OneToMany;
 
-#[Entity]
+/**
+ * @Entity
+ * @Table(name="courses")
+ */
 class Course
 {
-    #[Id, GeneratedValue, Column]
-    public int $id;
+    /** @Id @Column(type="integer") @GeneratedValue */
+    private $id;
 
-    #[OneToMany(
-        mappedBy: "student",
-        targetEntity:Phone::class,
-        cascade: ["persist", "remove"]
-    )]
-    private Collection $phones;
-
-    #[ManyToMany(targetEntity: Course::class, inversedBy: "studens")]
-    private Collection $courses;
+    /** @Column(type="string") */
+    private $name;
+    #[ManyToMany(
+        Student::class,
+        mappedBy: "student")]
+    private Collection $student;
 
     public function __construct(
 
-        public readonly string $name
+        //public readonly string $nome
         ){
-        $this->studens =new ArrayCollection();
-        $this->courses =new ArrayCollection();
+        $this->students =new ArrayCollection();
+
 
     }
-    public function addPhones(Phone $phone)
-    {
-        $this->phones->add($phone);
-        $phone->setStudent($this);
-    }
+
     public function students():Collection
     {
-        return $this->studens;
+        return $this->students;
     }
 
-    /**
-    *return Collection<Phone>
-    */
-    public function phones(): Collection
+    public function addstudents(student $student):void
     {
-        return $this->phones;
+        if($this->students->contains($student)){
+            return;
+        }
+        $this->students->add($student);
+        $student->enrollInCourse($this);
     }
-
-    public function courses(): Collection
-    {
-        return $this->courses;
-    }
-
 
 }
